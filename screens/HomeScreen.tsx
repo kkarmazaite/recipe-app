@@ -1,26 +1,45 @@
-import React, { Component } from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
-import type { HomeScreenProps } from "../types";
+import React from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
+import type { HomeScreenProps, ListRecipe } from "../types";
+import useFetch from "../hooks/useFetch";
 
-class HomeScreen extends Component<HomeScreenProps> {
-  render() {
-    const { navigation } = this.props;
+const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
+  const { data, isLoading, error } = useFetch("recipes/complexSearch", {});
+  const Recipes = data.results as ListRecipe[];
 
-    return (
-      <View style={styles.container}>
-        <Text>Home</Text>
-        <Button
-          title="Go to recipe"
-          onPress={() =>
-            navigation.navigate("Recipe", {
-              id: "1",
-            })
-          }
+  const handleCardPress = (id: number) => {
+    navigation.navigate("Recipe", {
+      id,
+    });
+  };
+
+  return (
+    <View style={styles.container}>
+      {isLoading ? (
+        <ActivityIndicator size="large" />
+      ) : error ? (
+        <Text>Something went wrong</Text>
+      ) : (
+        <FlatList
+          data={Recipes}
+          renderItem={({ item }) => (
+            <TouchableOpacity onPress={() => handleCardPress(item.id)}>
+              <Text>{item.title}</Text>
+            </TouchableOpacity>
+          )}
+          keyExtractor={(item) => item.id.toString()}
         />
-      </View>
-    );
-  }
-}
+      )}
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
