@@ -17,8 +17,7 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
   },
   title: {
-    marginTop: 10,
-    padding: 5,
+    padding: 10,
     fontWeight: "bold",
   },
 });
