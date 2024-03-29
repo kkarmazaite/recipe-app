@@ -9,10 +9,11 @@ import {
 } from "react-native";
 import type { HomeScreenProps, ListRecipe } from "../types";
 import useFetch from "../hooks/useFetch";
+import RecipeList from "../components/home/RecipeList";
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const { data, isLoading, error } = useFetch("recipes/complexSearch", {});
-  const Recipes = data.results as ListRecipe[];
+  const recipes = data.results as ListRecipe[];
 
   const handleCardPress = (id: number) => {
     navigation.navigate("Recipe", {
@@ -27,15 +28,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       ) : error ? (
         <Text>Something went wrong</Text>
       ) : (
-        <FlatList
-          data={Recipes}
-          renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => handleCardPress(item.id)}>
-              <Text>{item.title}</Text>
-            </TouchableOpacity>
-          )}
-          keyExtractor={(item) => item.id.toString()}
-        />
+        <RecipeList recipes={recipes} handleCardPress={handleCardPress} />
       )}
     </View>
   );

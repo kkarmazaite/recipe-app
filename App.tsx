@@ -15,7 +15,7 @@ class App extends Component {
           initialRouteName="Home"
           screenOptions={{
             headerStyle: {
-              backgroundColor: "#5b850d",
+              backgroundColor: "#7BB241",
             },
             headerTintColor: "#fff",
             headerTitleStyle: {
