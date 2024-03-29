@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   },
   description: {
     color: "#888",
-    fontSize: 10,
+    fontSize: 11,
     paddingLeft: 20,
     paddingRight: 20,
   },
