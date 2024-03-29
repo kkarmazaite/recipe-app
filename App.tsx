@@ -24,6 +24,8 @@ class App extends Component {
             },
             contentStyle: {
               backgroundColor: "#eff2e9",
+              alignItems: "center",
+              justifyContent: "center",
             },
           }}
         >

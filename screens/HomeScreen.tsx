@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  FlatList,
-  TouchableOpacity,
-  ActivityIndicator,
-} from "react-native";
+import { Text, View, ActivityIndicator } from "react-native";
 import type { HomeScreenProps, ListRecipe } from "../types";
 import useFetch from "../hooks/useFetch";
 import RecipeList from "../components/home/RecipeList";
@@ -22,7 +15,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View>
       {isLoading ? (
         <ActivityIndicator size="large" />
       ) : error ? (
@@ -33,14 +26,5 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
 
 export default HomeScreen;
