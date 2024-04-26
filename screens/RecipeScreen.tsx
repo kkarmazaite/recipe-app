@@ -7,8 +7,11 @@ import RecipeDetails from "../components/recipe/RecipeDetails";
 const RecipeScreen: React.FC<RecipeScreenProps> = ({ route }) => {
   const { id } = route.params;
 
-  const { data, isLoading, error } = useFetch(`recipes/${id}/information`, {});
-  const recipe = data as Recipe;
+  const { data, isLoading, error } = useFetch<Recipe>(
+    `recipes/${id}/information`,
+    {}
+  );
+  const recipe = data;
 
   return (
     <View>

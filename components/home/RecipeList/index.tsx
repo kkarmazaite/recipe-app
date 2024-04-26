@@ -9,7 +9,7 @@ type RecipeListProps = {
   handleCardPress: (id: number) => void;
 };
 
-class HomeScreen extends Component<RecipeListProps> {
+class RecipeList extends Component<RecipeListProps> {
   render() {
     const { recipes, handleCardPress } = this.props;
 
@@ -40,4 +40,4 @@ class HomeScreen extends Component<RecipeListProps> {
   }
 }
 
-export default HomeScreen;
+export default RecipeList;

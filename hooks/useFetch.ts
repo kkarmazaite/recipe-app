@@ -4,8 +4,8 @@ import { RAPID_API_KEY } from "@env";
 
 const rapidApiKey = RAPID_API_KEY;
 
-const useFetch = (endpoint: string, query: any) => {
-  const [data, setData] = useState<any>([]);
+const useFetch = <TData = any>(endpoint: string, query: any) => {
+  const [data, setData] = useState<TData>([] as TData);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<any | null>(null);
 

@@ -1,18 +1,18 @@
 import React, { Component } from "react";
 import { View, FlatList, Image, Text, ScrollView } from "react-native";
 import { Recipe } from "../../../types";
+import { removeHTMLTags } from "../../../utils";
 import styles from "./index.style";
 
 type RecipeDetailsProps = {
   recipe: Recipe;
 };
 
-class HomeScreen extends Component<RecipeDetailsProps> {
+class RecipeDetails extends Component<RecipeDetailsProps> {
   render() {
     const { recipe } = this.props;
 
-    const regex = /(<([^>]+)>)/gi;
-    const recipeDescription = recipe?.summary?.replace(regex, "");
+    const recipeDescription = removeHTMLTags(recipe?.summary || "");
 
     return (
       <ScrollView>
@@ -53,4 +53,4 @@ class HomeScreen extends Component<RecipeDetailsProps> {
   }
 }
 
-export default HomeScreen;
+export default RecipeDetails;
