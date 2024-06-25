@@ -1,20 +1,21 @@
 import React, { Component } from "react";
 import { View, FlatList, Dimensions } from "react-native";
-import { ListRecipe } from "../../../types";
+import { ListRecipe, DeviceOrientation } from "../../../types";
 import RecipeCard from "../RecipeCard";
 import styles from "./index.style";
 
 type RecipeListProps = {
   recipes: ListRecipe[];
+  orientation: DeviceOrientation;
   handleCardPress: (id: number) => void;
 };
 
 class RecipeList extends Component<RecipeListProps> {
   render() {
-    const { recipes, handleCardPress } = this.props;
+    const { recipes, orientation, handleCardPress } = this.props;
 
     const screenWidth = Dimensions.get("window").width - 20;
-    const numColumns = 2;
+    const numColumns = orientation == "LANDSCAPE" ? 4 : 2;
     const gap = styles.grid.gap;
     const availableSpace = screenWidth - (numColumns - 1) * gap;
     const itemSize = availableSpace / numColumns;
@@ -34,7 +35,7 @@ class RecipeList extends Component<RecipeListProps> {
         numColumns={numColumns}
         contentContainerStyle={styles.grid}
         columnWrapperStyle={{ gap }}
-        keyExtractor={(item) => item.id.toString()}
+        key={orientation}
       />
     );
   }

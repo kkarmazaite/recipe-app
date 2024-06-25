@@ -110,3 +110,5 @@ export interface Recipe {
   weightWatcherSmartPoints: number;
   winePairing: WinePairing;
 }
+
+export type DeviceOrientation = "PORTRAIT" | "LANDSCAPE";
