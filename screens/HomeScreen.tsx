@@ -4,12 +4,13 @@ import type { HomeScreenProps, ListRecipe } from "../types";
 import useFetch from "../hooks/useFetch";
 import RecipeList from "../components/home/RecipeList";
 import { useOrientation } from "../hooks/useCheckOrientation";
+import SearchBar from "../components/home/SearchBar";
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
-  const { data, isLoading, error } = useFetch<{ results: ListRecipe[] }>(
-    "recipes/complexSearch",
-    {}
-  );
+  const [searchText, setSearchText] = React.useState("");
+  const { data, isLoading, error, refetch } = useFetch<{
+    results: ListRecipe[];
+  }>(`recipes/complexSearch?query=${encodeURIComponent(searchText)}`, {});
   const recipes = data.results;
   const orientation = useOrientation();
 
@@ -19,11 +20,19 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     });
   };
 
+  const handleSearchTextChange = (text: string) => {
+    setSearchText(text);
+    refetch();
+  };
+
   return (
     <View>
-      {isLoading ? (
-        <ActivityIndicator size="large" />
-      ) : error ? (
+      <SearchBar
+        searchText={searchText}
+        handleSearchTextChange={handleSearchTextChange}
+      />
+
+      {error ? (
         <Text>Something went wrong</Text>
       ) : (
         <RecipeList
