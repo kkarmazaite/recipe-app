@@ -2,6 +2,7 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
+    position: "relative",
     flex: 1,
     backgroundColor: "#fff",
     borderRadius: 4,
@@ -19,6 +20,12 @@ const styles = StyleSheet.create({
   title: {
     padding: 10,
     fontWeight: "bold",
+  },
+  favouriteButton: {
+    position: "absolute",
+    top: 0,
+    right: 0,
+    padding: 10,
   },
 });
 

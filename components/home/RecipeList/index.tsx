@@ -7,12 +7,20 @@ import styles from "./index.style";
 type RecipeListProps = {
   recipes: ListRecipe[];
   orientation: DeviceOrientation;
+  favouriteRecipes: Number[];
   handleCardPress: (id: number) => void;
+  handleFavouriteButtonPress: (id: number) => void;
 };
 
 class RecipeList extends Component<RecipeListProps> {
   render() {
-    const { recipes, orientation, handleCardPress } = this.props;
+    const {
+      recipes,
+      orientation,
+      favouriteRecipes,
+      handleCardPress,
+      handleFavouriteButtonPress,
+    } = this.props;
 
     const screenWidth = Dimensions.get("window").width - 20;
     const numColumns = orientation == "LANDSCAPE" ? 4 : 2;
@@ -29,7 +37,12 @@ class RecipeList extends Component<RecipeListProps> {
               width: itemSize,
             }}
           >
-            <RecipeCard recipe={item} handleCardPress={handleCardPress} />
+            <RecipeCard
+              recipe={item}
+              favouriteRecipes={favouriteRecipes}
+              handleCardPress={handleCardPress}
+              handleFavouriteButtonPress={handleFavouriteButtonPress}
+            />
           </View>
         )}
         numColumns={numColumns}
