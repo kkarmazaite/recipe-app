@@ -3,6 +3,12 @@ import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 export type RootStackParamList = {
   Home: undefined;
   Recipe: { id: number };
+  Favourites: undefined;
+};
+
+export type RootTabParamList = {
+  HomeTab: undefined;
+  FavouritesTab: undefined;
 };
 
 export type HomeScreenProps = NativeStackScreenProps<
@@ -13,6 +19,11 @@ export type HomeScreenProps = NativeStackScreenProps<
 export type RecipeScreenProps = NativeStackScreenProps<
   RootStackParamList,
   "Recipe"
+>;
+
+export type FavouritesScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  "Favourites"
 >;
 
 export interface Nutrient {
