@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Text, View, ActivityIndicator } from "react-native";
 import type { HomeScreenProps, ListRecipe } from "../types";
 import useFetch from "../hooks/useFetch";
@@ -15,6 +15,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const {
     data: favouriteRecipes,
     updateFavouriteRecipes: handleFavouriteButtonPress,
+    getFavouriteRecipes,
   } = useFavouriteRecipes();
   const recipes = data.results;
   const orientation = useOrientation();
@@ -30,6 +31,12 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     refetch();
   };
 
+  useEffect(() => {
+    return navigation.addListener("focus", () => {
+      getFavouriteRecipes();
+    });
+  }, [navigation]);
+
   return (
     <View>
       <SearchBar
@@ -39,6 +46,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
       {error ? (
         <Text>Something went wrong</Text>
+      ) : isLoading ? (
+        <Text>Loading</Text>
       ) : (
         <RecipeList
           recipes={recipes}

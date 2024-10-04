@@ -9,16 +9,20 @@ const useFavouriteRecipes = () => {
   const key = "favourite-recipes";
 
   const getFavouriteRecipes = async () => {
+    let Ids: number[] = [];
     setIsLoading(true);
 
     try {
       const jsonValue = await AsyncStorage.getItem(`${key}`);
-      setData(jsonValue ? JSON.parse(jsonValue) : []);
+      Ids = jsonValue ? JSON.parse(jsonValue) : [];
+      setData(Ids);
     } catch (error) {
       setError(error);
     }
 
     setIsLoading(false);
+
+    return Ids;
   };
 
   const updateFavouriteRecipes = async (id: number) => {
@@ -45,7 +49,13 @@ const useFavouriteRecipes = () => {
     getFavouriteRecipes();
   }, []);
 
-  return { data, isLoading, error, updateFavouriteRecipes };
+  return {
+    data,
+    isLoading,
+    error,
+    updateFavouriteRecipes,
+    getFavouriteRecipes,
+  };
 };
 
 export default useFavouriteRecipes;
