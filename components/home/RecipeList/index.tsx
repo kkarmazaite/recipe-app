@@ -10,6 +10,7 @@ type RecipeListProps = {
   favouriteRecipes: Number[];
   handleCardPress: (id: number) => void;
   handleFavouriteButtonPress: (id: number) => void;
+  addNextPageData?: () => void;
 };
 
 class RecipeList extends Component<RecipeListProps> {
@@ -20,6 +21,7 @@ class RecipeList extends Component<RecipeListProps> {
       favouriteRecipes,
       handleCardPress,
       handleFavouriteButtonPress,
+      addNextPageData,
     } = this.props;
 
     const screenWidth = Dimensions.get("window").width - 20;
@@ -49,6 +51,8 @@ class RecipeList extends Component<RecipeListProps> {
         contentContainerStyle={styles.grid}
         columnWrapperStyle={{ gap }}
         key={orientation}
+        onEndReached={addNextPageData}
+        onEndReachedThreshold={1}
       />
     );
   }

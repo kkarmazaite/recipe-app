@@ -8,8 +8,13 @@ import SearchBar from "../components/home/SearchBar";
 import useFavouriteRecipes from "../hooks/useFavouriteRecipes";
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
+  const steps = 10;
+  const [recipes, setRecipes] = React.useState<ListRecipe[]>([]);
+  const [offset, setOffset] = React.useState(0);
+  const [overallResults, setOverallResults] = React.useState(steps);
+
   const [searchText, setSearchText] = React.useState("");
-  const { data, isLoading, error, refetch } = useFetch<{
+  const { data, isLoading, error, refetch, fetchWithUrl } = useFetch<{
     results: ListRecipe[];
   }>(`recipes/complexSearch?query=${encodeURIComponent(searchText)}`, {});
   const {
@@ -17,8 +22,28 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     updateFavouriteRecipes: handleFavouriteButtonPress,
     getFavouriteRecipes,
   } = useFavouriteRecipes();
-  const recipes = data.results;
   const orientation = useOrientation();
+
+  const getNextPageData = async () => {
+    let nextPageData = null;
+
+    const nextOffset = offset + steps;
+    const nextOverallResults = overallResults + steps;
+
+    try {
+      nextPageData = await fetchWithUrl(
+        `recipes/complexSearch?query=${encodeURIComponent(
+          searchText
+        )}&offset=${nextOffset}&number=${nextOverallResults}`
+      );
+
+      if (nextPageData) {
+        setRecipes([...recipes, ...nextPageData.results]);
+        setOffset(nextOffset);
+        setOverallResults(nextOverallResults);
+      }
+    } catch (e) {}
+  };
 
   const handleCardPress = (id: number) => {
     navigation.navigate("Recipe", {
@@ -36,6 +61,16 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       getFavouriteRecipes();
     });
   }, [navigation]);
+
+  useEffect(() => {
+    setRecipes(data.results);
+    setOffset(0);
+    setOverallResults(steps);
+  }, [data]);
+
+  useEffect(() => {
+    refetch();
+  }, [searchText]);
 
   return (
     <View>
@@ -55,6 +90,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           orientation={orientation}
           handleCardPress={handleCardPress}
           handleFavouriteButtonPress={handleFavouriteButtonPress}
+          addNextPageData={getNextPageData}
         />
       )}
     </View>
